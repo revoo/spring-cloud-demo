@@ -28,7 +28,8 @@ jobs:
     - name: Build BootJar with Gradle
       run: chmod +x gradlew && ./gradlew bootjar 
     - name: Configure SSH Connectivity
-      run: |
-        echo "{{ secrets.EC2_PRIVATE_KEY }}" > key.pem
+      run: echo "{{ secrets.EC2_PRIVATE_KEY }}" > key.pem
     - name: Deploy to EC2
-      run:  rsync -avh --stats --progress -e "ssh -v -i key.pem -o StrictHostKeyChecking=accept-new" /build/libs/* gha-batch-user@"{{ secrets.EC2_URL }}":/tmp
+      env:
+        EC2_URL: ${{ secrets.EC2_URL }} 
+      run:  rsync -avh --stats --progress -e "ssh -v -i key.pem -o StrictHostKeyChecking=accept-new" /build/libs/* gha-batch-user@"$EC2_URL":/tmp
