@@ -27,3 +27,5 @@ jobs:
         distribution: 'temurin'
     - name: Build BootJar with Gradle
       run: chmod +x gradlew && ./gradlew bootjar 
+    - name: Deploy to EC2
+      run: ls -l
