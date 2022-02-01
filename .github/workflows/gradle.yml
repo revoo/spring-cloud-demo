@@ -28,7 +28,9 @@ jobs:
     - name: Build BootJar with Gradle
       run: chmod +x gradlew && ./gradlew bootjar 
     - name: Configure SSH Connectivity
-      run: echo "{{ secrets.EC2_PRIVATE_KEY }}" > key.pem
+      run: |
+        echo "{{ secrets.EC2_PRIVATE_KEY }}" > key.pem
+        chmod 600 key.pem
     - name: Deploy to EC2
       env:
         EC2_URL: ${{ secrets.EC2_URL }} 
