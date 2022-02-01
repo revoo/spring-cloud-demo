@@ -36,6 +36,9 @@ jobs:
         EC2_URL: ${{ secrets.EC2_URL }} 
         USER: "gha-batch-user"
       run:  |
-        ls -l
-        ls -l build/libs
         rsync -avh --stats --progress -e "ssh -v -i key.pem -o StrictHostKeyChecking=accept-new" build/libs/* "$USER"@"$EC2_URL":/tmp
+# use "curl https://api.ipify.org/" to get IP address of current github action runner
+# use the AWS cli to set this security group to allow connection
+# upload using rsync
+# revoke IP address using AWS CLI
+# you'll need AWS access token - set up a github secret for this.
