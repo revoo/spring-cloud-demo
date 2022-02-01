@@ -36,11 +36,11 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        # step that injected the environment variable does not have access to it... so have to use traditional variable here. 
       run: |
         RUNNER_IP=$(curl https://api.ipify.org/)
         echo "RUNNER_IP=$RUNNER_IP" >> $GITHUB_ENV 
-        aws ec2 authorize-security-group-ingress --group-name "launch-wizard-1" --protocol tcp --port 22 --cidr $RUNNER_IP"/32 --output text
-# step that injected the environment variable does not have access to it... so have to use traditional variable here. 
+        aws ec2 authorize-security-group-ingress --group-name "launch-wizard-1" --protocol tcp --port 22 --cidr "$RUNNER_IP"/32 --output text
     - name: Deploy to EC2
       env:
         EC2_URL: ${{ secrets.EC2_URL }} 
