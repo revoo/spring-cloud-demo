@@ -29,7 +29,7 @@ jobs:
       run: chmod +x gradlew && ./gradlew bootjar 
     - name: Configure SSH Connectivity
       run: |
-        echo "{{ secrets.EC2_PRIVATE_KEY }}" > key.pem
+        echo "${{ secrets.EC2_PRIVATE_KEY }}" > key.pem
         chmod 600 key.pem
     - name: Deploy to EC2
       env:
