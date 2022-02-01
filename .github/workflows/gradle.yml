@@ -37,8 +37,8 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       run: |
-        echo "IP=$(curl https://api.ipify.org/)" > $GITHUB_ENV 
-        aws ec2 authorize-security-group-ingress --group-name "launch-wizard-1" --protocol tcp --port 22 --cidr $IP/32 --output text
+        echo "IP=$(curl https://api.ipify.org/)" >> $GITHUB_ENV 
+        aws ec2 authorize-security-group-ingress --group-name "launch-wizard-1" --protocol tcp --port 22 --cidr ${{ env.IP }}/32 --output text
     - name: Deploy to EC2
       env:
         EC2_URL: ${{ secrets.EC2_URL }} 
