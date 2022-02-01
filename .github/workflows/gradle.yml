@@ -32,4 +32,5 @@ jobs:
     - name: Deploy to EC2
       env:
         EC2_URL: ${{ secrets.EC2_URL }} 
-      run:  rsync -avh --stats --progress -e "ssh -v -i key.pem -o StrictHostKeyChecking=accept-new" /build/libs/* gha-batch-user@"$EC2_URL":/tmp
+        USER: "gha-batch-user"
+      run:  rsync -avh --stats --progress -e "ssh -v -i key.pem -o StrictHostKeyChecking=accept-new" /build/libs/* "$USER"@"$EC2_URL":/tmp
