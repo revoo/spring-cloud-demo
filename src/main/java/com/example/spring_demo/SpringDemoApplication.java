@@ -15,7 +15,7 @@ public class SpringDemoApplication {
     }
 
     @GetMapping("/hello")
-    public String sayHello(@RequestParam(value="name", defaultValue = "revoo") String name) {
+    public String sayHello(@RequestParam(value="name", defaultValue = "CONTINUOUS DEPLOYMENT!") String name) {
                 return String.format("Hello %s", name);
     }
 }
