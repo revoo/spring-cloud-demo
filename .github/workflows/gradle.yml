@@ -45,7 +45,8 @@ jobs:
       env:
         EC2_URL: ${{ secrets.EC2_URL }} 
         USER: "gha-batch-user"
-      run: rsync -avh --stats --progress -e "ssh -v -i key.pem -o StrictHostKeyChecking=accept-new" build/libs/* "$USER"@"$EC2_URL":/tmp
+        JAR_PATH: "/opt/deploy-daemon/webapp/"
+      run: rsync -avh --stats --progress -e "ssh -v -i key.pem -o StrictHostKeyChecking=accept-new" build/libs/* "$USER"@"$EC2_URL":"$JAR_PATH"
     - name: Revoke EC2 SSH Access
       # duplication but limiting scope to local code only rather than making this secret global to the workflow.
       env: 
