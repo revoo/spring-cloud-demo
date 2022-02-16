@@ -1,25 +1,18 @@
 package com.example.spring_demo.rest.employee;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+// Having this as an interface with allow us to swap between different service implementations.
+// In this instance we only have one implementation of EmployeeService, so it's not terribly useful.
+// this is considered a best practice to 'code to an interface'.
+// Having this set up will allow for easier testing through mocking.
+// There is also the principle of YAGNI that says that this is extraneous.
+// However, this interface forces you to define a contract and make strong guarantees about your code. A valuable practice.
+// There are arguments for both sides - need to research more.
 
 import java.util.List;
 
-// Middle layer in the n-tier design pattern.
-// The service layer is where the business logic goes.
-// connects to the DAO/Repository class and fulfills requests from controller class.
-
-@Service
-public class EmployeeService {
-    // declare a dependency which Spring will inject automatically
-    EmployeeRepository employeeRepository;
-    // Inject class dependencies (the repository object)
-    @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
-    // expose API for the controller to retrieve data
-    public List<Employee> getEmployees() {
-        return employeeRepository.findAll();
-    }
+public interface EmployeeService {
+    public List<Employee> getEmployees();
+    public void saveEmployee(Employee employee);
+    public void deleteEmployeeById(long id);
+    public Employee getEmployeeById(long id);
 }
