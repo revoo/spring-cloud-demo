@@ -30,6 +30,13 @@ public class EmployeeController {
     // CREATE or UPDATE POST Endpoint
     @PostMapping
     public void saveEmployee(@RequestBody Employee employee) {
+        // When a request comes in with a JSON payload of an Employee object without an ID (primary key)
+        // This will create a new record and the database will generate an available ID for this record
+        // based on the strategy selected. This is the CREATE in CRUD.
+        // When the JSON payload Employee Object contains an ID (primary key) already,
+        // This will attempt to UPDATE the existing record.
+        // Can also add error checking here to provide feedback to the user whether
+        // The record was updated or created or failed to update or create.
         employeeService.saveEmployee(employee);
     }
     // GET employee by ID
@@ -52,5 +59,11 @@ public class EmployeeController {
         return new ResponseEntity<Employee>(returnedEmployee, httpStatus);
     }
     // Delete an Employee by their primary key (ID)
+    @DeleteMapping("{employeeId}")
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable long employeeId) {
+        boolean deleteSuccessful = employeeService.deleteEmployeeById(employeeId);
+        HttpStatus httpStatus = deleteSuccessful ? HttpStatus.OK : HttpStatus.NOT_FOUND;
 
+        return new ResponseEntity<>(httpStatus);
+    }
 }

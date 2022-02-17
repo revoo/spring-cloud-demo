@@ -2,8 +2,8 @@ package com.example.spring_demo.rest.employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -44,8 +44,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
     // delete employee
     @Override
-    public void deleteEmployeeById(long id) {
-        employeeRepository.deleteById(id);
+    // @Transactional is needed here otherwise, JPA (Hibernate really) will throw an error.
+    // All database operations must be enclosed in a transaction.
+    // The reason why we don't need it in the other CRUD methods is because Spring Data JPA
+    // Adds the transactional behind the scenes for the native methods of CrudRepository.
+    // However, DeleteEmployeeById is a 'custom' method. Spring Data JPA will still generate
+    // This automatically for us, but it looks like it doesn't add the transaction support.
+    @Transactional
+    public boolean deleteEmployeeById(long id) {
+        Long rowsAffected = employeeRepository.deleteEmployeeById(id);
+        // return true for delete operation successful if we affected 1 row
+        // if the rowsAffected is 0 then the delete operation wasn't successful.
+        return (rowsAffected == 1);
     }
     // get single employee record
     @Override

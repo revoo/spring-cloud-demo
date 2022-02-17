@@ -13,6 +13,6 @@ import java.util.List;
 public interface EmployeeService {
     public List<Employee> getEmployees();
     public void saveEmployee(Employee employee);
-    public void deleteEmployeeById(long id);
+    public boolean deleteEmployeeById(long id);
     public Employee getEmployeeById(long id);
 }

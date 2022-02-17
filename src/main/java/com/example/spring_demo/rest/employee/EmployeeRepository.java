@@ -25,4 +25,8 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
     @Override
     @NonNull
     List<Employee> findAll();
+    // This is a custom method that Spring JPA will implement based on the ID field.
+    // I added the Long return type so that it will return the number of rows affected
+    // To show the user that the delete operation was successful through an HTTP status code.
+    Long deleteEmployeeById(Long id);
 }
